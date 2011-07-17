@@ -343,7 +343,7 @@ class TweetMunger {
     private function tweet($text) {
         $tweet = new TwitterOAuth($this->twitterConsumerKey, $this->twitterConsumerSecret, $this->twitterConsumerOauthToken, $this->twitterConsumerOauthSecret);
         if (!$this->debugMode) {
-            $tweet->post('statuses/update', array('status' => $text));
+            print_r($tweet->post('statuses/update', array('status' => $text)));
         } 
         $this->debug('<p>tweeting: ' . $text . '</p>');
         $this->debug('<hr />');
