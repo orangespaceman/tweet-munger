@@ -8,7 +8,7 @@ Translate _(mung)_ tweets from a specific user account through several languages
 Setting up a new TweetMunger account will require a few accounts:
 
   * Create a new [Twitter](http://twitter.com/) account 
-  * [Register a new app](https://dev.twitter.com/) with the twitter account - take a note of the four different keys listed below, and make sure the app has read and write access.
+  * [Register a new app](https://dev.twitter.com/) with the twitter account - take a note of the four different keys listed below, and make sure the app has read and write access.  (Give it read and write access before creating your access tokens so they share this access, to check see [here](https://twitter.com/settings/applications))
   * [Register for a Bing App account](http://www.bing.com/developers/createapp.aspx) (or a [Google Translate API Key](http://code.google.com/apis/language/translate/v2/getting_started.html), but this may cease to exist from December 2011)
 
 
