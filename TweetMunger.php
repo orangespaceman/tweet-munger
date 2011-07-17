@@ -354,8 +354,8 @@ class TweetMunger {
      * If we're in debug mode, output the debug text to the browser
      */
     private function debug($text) {
-        if ($this->debugMode) {
+//        if ($this->debugMode) {
             echo $text;
-        }
+//        }
     }
 }
