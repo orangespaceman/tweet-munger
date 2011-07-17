@@ -170,6 +170,7 @@ class TweetMunger {
 
         // check if there have been any new tweets since this
         $tweets = $this->getLatestTweets($latestMungedTweetId);
+        $tweets = array_reverse($tweets);
         
         // loop through all new tweets
         foreach ($tweets as $key => $tweet) {
@@ -343,9 +344,14 @@ class TweetMunger {
     private function tweet($text) {
         $tweet = new TwitterOAuth($this->twitterConsumerKey, $this->twitterConsumerSecret, $this->twitterConsumerOauthToken, $this->twitterConsumerOauthSecret);
         if (!$this->debugMode) {
-            print_r($tweet->post('statuses/update', array('status' => $text)));
+            $post = $tweet->post('statuses/update', array('status' => $text));
         } 
         $this->debug('<p>tweeting: ' . $text . '</p>');
+        if (!$this->debugMode) {
+            $this->debug("<pre style='font-size:9px;'>");
+            $this->debug(print_r($post));
+            $this->debug("</pre>");
+        }
         $this->debug('<hr />');
     }
     
