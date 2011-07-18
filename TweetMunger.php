@@ -255,6 +255,12 @@ class TweetMunger {
         $text = $this->translate($text, $this->translatableLanguages[$languageCount-1], $this->originalLanguage);
         $this->debug('<p>Translation from '.$this->translatableLanguages[$languageCount-1].' into '.$this->originalLanguage.': ' . $text . '</p>');
         
+        // ensure new text length is <= 140 characters
+        if (strlen($text) > 140) {
+            $text = substr($text, 0, 137) . "...";
+            $this->debug('<p>Text is too long, truncating...</p>');
+        }
+        
         // return the newly translated text
         return $text;
     }
