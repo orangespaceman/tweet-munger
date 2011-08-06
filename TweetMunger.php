@@ -140,6 +140,13 @@ class TweetMunger {
      */
     protected $twitterConsumerOauthSecret;
     
+    /**
+     * File containing id of latest tweet
+     * 
+     * @var string
+     */
+     protected $latestTweetIdFile = "latesttweetid.txt";    
+    
     
     /**
      * Constructor.
@@ -179,8 +186,10 @@ class TweetMunger {
             $text = $this->mungText($tweet->text, $tweet->id_str);
             
             // condition : if a translation is found, post to twitter
+            // also save latest translated id, to stop re-munging
             if (!empty($text)) {
                 $this->tweet($text);
+                $this->saveTranslatedId($tweet->id_str);                
             }
         }
     }
@@ -192,11 +201,33 @@ class TweetMunger {
      * @return string
      */
     private function getLatestMungedTweetId() {
-        $this->twitterSearch->from($this->mungedTwitterAccount);
-        $lastMungedTweet = $this->twitterSearch->rpp(1)->results();
-        $latestMungedTweetId = @$lastMungedTweet[0]->id_str;
-        $this->debug('<p>$latestMungedTweetId: '.$latestMungedTweetId.'</p>');
+        // try to get the latest translated tweet id from local file
+        $latestMungedTweetId = @file_get_contents($this->latestTweetIdFile);
+        
+        // if there is no local file, try to get the latest translated tweet id from the twitter account
+        if (empty($latestMungedTweetId)) {
+            $this->twitterSearch->from($this->mungedTwitterAccount);
+            $lastMungedTweet = $this->twitterSearch->rpp(1)->results();
+            $latestMungedTweetId = @$lastMungedTweet[0]->id_str;
+            $this->debug('<p>$latestMungedTweetId:'.$latestMungedTweetId.' (retrieved from twitter)</p>');
+            $this->saveTranslatedId($latestMungedTweetId);
+        } else {
+            $this->debug('<p>$latestMungedTweetId:'.$latestMungedTweetId.' (retrieved from text file)</p>');
+        }
         return $latestMungedTweetId;
+    }
+    
+    
+    /**
+     * Save the id of the latest translated tweet
+     * 
+     * @return void
+     */
+    private function saveTranslatedId($id) {
+        $file = fopen($this->latestTweetIdFile, 'w') or exit("Can't open $this->latestTweetIdFile!");
+        fwrite($file, $id);
+        fclose($file);
+        $this->debug('<p>Latest translated id saved: '.$id.'</p>');
     }
     
     
