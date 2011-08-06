@@ -189,7 +189,6 @@ class TweetMunger {
             // also save latest translated id, to stop re-munging
             if (!empty($text)) {
                 $this->tweet($text);
-                $this->saveTranslatedId($tweet->id_str);                
             }
         }
     }
@@ -382,6 +381,7 @@ class TweetMunger {
         $tweet = new TwitterOAuth($this->twitterConsumerKey, $this->twitterConsumerSecret, $this->twitterConsumerOauthToken, $this->twitterConsumerOauthSecret);
         if (!$this->debugMode) {
             $post = $tweet->post('statuses/update', array('status' => $text));
+            $this->saveTranslatedId($post->$id_str);
         } 
         $this->debug('<p>tweeting: ' . $text . '</p>');
         if (!$this->debugMode) {
