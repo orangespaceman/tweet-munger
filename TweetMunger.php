@@ -381,7 +381,7 @@ class TweetMunger {
         $tweet = new TwitterOAuth($this->twitterConsumerKey, $this->twitterConsumerSecret, $this->twitterConsumerOauthToken, $this->twitterConsumerOauthSecret);
         if (!$this->debugMode) {
             $post = $tweet->post('statuses/update', array('status' => $text));
-            $this->saveTranslatedId($post->$id_str);
+            $this->saveTranslatedId($post->id_str);
         } 
         $this->debug('<p>tweeting: ' . $text . '</p>');
         if (!$this->debugMode) {
